@@ -1,16 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { TextInput, button,} from 'react-native-paper';
 
 export default function App() {
   return (
     <View style={{flex: 1}}>
       <View style={styles.container}>
         <Text style={styles.title}>Todo List</Text>
-        <TextInput style={styles.input}placeholder='Type here' ></TextInput>
+        <TextInput style={styles.input}placeholder='Type here' 
+          right={<TextInput.Icon icon="plus"/>}
+        ></TextInput>
         <StatusBar style="auto" />
       </View>
       <View style={styles.container2}>
-        <Text>Open up App.js to start working on your app!</Text>
+        
         <StatusBar style="auto" />
       </View>
     </View>
@@ -42,7 +45,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height:35,
-    width: 900,
+    width: 500,
     borderColor: 'grey',
     borderWidth: 1.5,
     textAlign:'center',
