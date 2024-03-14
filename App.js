@@ -17,6 +17,16 @@ export default function App() {
     setTodoItems(todoItems.filter(item=>item.id !==id));
   };
 
+  const API =()=>{
+    fetch('https://jsonplaceholder.typicode.com/todos/1')
+      .then(response => response.json())
+      .then(json => {console.log(json);
+      })
+      .catch(error => {
+        console.error('Error fetching data:',error);
+      })
+  }
+  
   const renderItem = ({ item }) => (
     <View style={styles.todoItem}>
       <Text style={styles.taskDisplay}>{item.text}</Text>
@@ -35,9 +45,13 @@ export default function App() {
           value={todoText}
         ></TextInput>
         <Button mode='contained' rippleColor='blue' style={styles.button}
-            onPress={addTodo}>
+            onPress={()=> {
+            addTodo();
+            API();
+            }}>
             Add Task
           </Button>
+          <Text></Text>
         </View>
             <View style={styles.container2}>
           <FlatList
