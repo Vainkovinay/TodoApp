@@ -19,7 +19,7 @@ export default function App() {
 
   const renderItem = ({ item }) => (
     <View style={styles.todoItem}>
-      <Text>{item.text}</Text>
+      <Text style={styles.taskDisplay}>{item.text}</Text>
       <TouchableOpacity onPress={() => deleteTodo(item.id)}>
         <Text style={styles.deleteButton}>Delete</Text>
       </TouchableOpacity>
@@ -52,7 +52,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 3,
+    flex: 2.2,
     backgroundColor: 'lightblue',
     alignItems: 'center',
     justifyContent: 'center',
@@ -60,12 +60,6 @@ const styles = StyleSheet.create({
   container2: {
     flex: 3,
     backgroundColor: 'skyblue',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  container3: {
-    flex:3,
-    backgroundColor: 'blue',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -90,9 +84,20 @@ const styles = StyleSheet.create({
   todoItem: {
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: 'darkblue',
   },
   deleteButton: {
     color: 'red',
+    fontWeight: 'bold',
+    alignSelf: 'flex-end',
+    textShadowColor: 'red',
+  },
+  taskDisplay: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    maxWidth: 'auto',
+    color: 'black',
+    width: 330,
+    borderCurve:'circular',
   },
 });
