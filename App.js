@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList,ScrollView, TouchableOpacity } from 'react-native';
-import { Button, TextInput } from 'react-native-paper';
+import { ActivityIndicator, Button, TextInput } from 'react-native-paper';
 
 export default function App() {
   const [todoItems, setTodoItems] = useState([]);
   const [todoText, setTodoText] = useState('');
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
 
   const addTodo = () => {
     if (todoText.trim() !== '') {
@@ -17,24 +19,30 @@ export default function App() {
     setTodoItems(todoItems.filter(item=>item.id !==id));
   };
 
-  const API =()=>{
-    fetch('https://jsonplaceholder.typicode.com/todos/1')
-      .then(response => response.json())
-      .then(json => {console.log(json);
-      })
-      .catch(error => {
-        console.error('Error fetching data:',error);
-      })
-  }
+  const apiCall = async()=>{
+    try {
+      const response = await fetch('https://reactnative.dev/movies.json');
+        const json =await response.json();
+        setData(json.movies);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   
-  const renderItem = ({ item }) => (
-    <View style={styles.todoItem}>
-      <Text style={styles.taskDisplay}>{item.text}</Text>
-      <TouchableOpacity onPress={() => deleteTodo(item.id)}>
-        <Text style={styles.deleteButton}>Delete</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  useEffect(()=>{
+    apiCall();
+  },[]);
+
+  //const renderItem = ({ item }) => (
+    //<View style={styles.todoItem}>
+      //<Text style={styles.taskDisplay}>{item.text}</Text>
+      //<TouchableOpacity onPress={() => deleteTodo(item.id)}>
+        //<Text style={styles.deleteButton}>Delete</Text>
+      //</TouchableOpacity>
+    //</View>
+  //);
   
   return (
       <View style={{flex: 1}}>
@@ -47,18 +55,26 @@ export default function App() {
         <Button mode='contained' rippleColor='blue' style={styles.button}
             onPress={()=> {
             addTodo();
-            API();
+            apiCall();
             }}>
             Add Task
           </Button>
           <Text></Text>
         </View>
             <View style={styles.container2}>
-          <FlatList
-            data={todoItems}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-            />
+            {isLoading ? (
+              <ActivityIndicator />
+            ) : (
+              <FlatList
+                data={data}
+                keyExtractor={({id}) => id}
+                renderItem={({item}) => (
+                  <Text>
+                    {item.title}, {item.releaseYear}
+                  </Text>
+                )}
+              />
+            )}
         </View>
       </View>
       );
