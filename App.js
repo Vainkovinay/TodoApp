@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList,ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, FlatList, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { ActivityIndicator, Button, TextInput } from 'react-native-paper';
 
 export default function App() {
@@ -15,20 +15,20 @@ export default function App() {
     }
   };
 
-  const deleteTodo =(id)=>{
-    setTodoItems(todoItems.filter(item=>item.id !==id));
+  const deleteTodo = (id) => {
+    setTodoItems(todoItems.filter(item => item.id !== id));
   };
 
-  const deleteAPI =()=>{
+  const deleteAPI = () => {
     fetch('https://jsonplaceholder.typicode.com/users', {
       method: 'DELETE',
-});
+    });
   }
 
-  const apiCall = async()=>{
+  const apiCall = async () => {
     try {
       const response = await fetch('https://jsonplaceholder.typicode.com/users');
-      const json =await response.json();
+      const json = await response.json();
       setData(json);
     } catch (error) {
       console.error(error);
@@ -36,10 +36,10 @@ export default function App() {
       setLoading(false);
     }
   };
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     apiCall();
-  },[]);
+  }, []);
 
   const renderItem = ({ item }) => (
     <View style={styles.todoItem}>
@@ -53,48 +53,48 @@ export default function App() {
   const renderItemsss = ({ item }) => (
     <View style={styles.todoItem}>
       <Text style={styles.taskDisplay}>
-        User Name: {item.name}
+        {item.name}
       </Text>
       <TouchableOpacity onPress={() => deleteAPI(item.title)}>
         <Text style={styles.deleteButton}>Delete</Text>
       </TouchableOpacity>
     </View>
   );
-  
+
   return (
-      <View style={{flex: 1}}>
-        <View style={styles.container}>
+    <View style={{ flex: 1 }}>
+      <View style={styles.container}>
         <Text style={styles.title}>Todo List</Text>
-        <TextInput style={styles.input}placeholder='Type here' 
+        <TextInput style={styles.input} placeholder='Type here'
           onChangeText={text => setTodoText(text)}
           value={todoText}
         ></TextInput>
         <Button mode='contained' rippleColor='blue' style={styles.button}
-            onPress={()=> {
+          onPress={() => {
             addTodo();
-            }}>
-            Add Task
-          </Button>
-        </View>
-            <View style={styles.container2}>
-            {isLoading ? (
-              <ActivityIndicator size = "large" />
-            ) : (
-              <FlatList
-                data={data}
-                keyExtractor={(item) => item.id}
-                renderItem={renderItemsss}
-              />
-            )
-            }
-            <FlatList
-              data={todoItems}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.id}
-            />
-        </View>
+          }}>
+          Add Task
+        </Button>
       </View>
-      );
+      <View style={styles.container2}>
+        {isLoading ? (
+          <ActivityIndicator size="large" />
+        ) : (
+          <FlatList
+            data={data}
+            keyExtractor={(item) => item.id}
+            renderItem={renderItemsss}
+          />
+        )
+        }
+        <FlatList
+          data={todoItems}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -116,17 +116,17 @@ const styles = StyleSheet.create({
     paddingTop: 50,
   },
   input: {
-    height:35,
+    height: 35,
     width: 300,
     borderColor: 'grey',
     borderWidth: 1.5,
-    textAlign:'center',
+    textAlign: 'center',
     padding: 7,
-    marginTop: 20, 
+    marginTop: 20,
   },
   button: {
     marginTop: 20,
-    backgroundColor: 'blue', 
+    backgroundColor: 'blue',
   },
   todoItem: {
     paddingVertical: 10,
@@ -145,6 +145,6 @@ const styles = StyleSheet.create({
     maxWidth: 'auto',
     color: 'black',
     width: 330,
-    borderCurve:'circular',
+    borderCurve: 'circular',
   },
 });
